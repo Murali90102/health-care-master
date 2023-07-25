@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: healthcare
+  labels:
+    app: healthcare
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: healthcare
+  template:
+    metadata:
+      labels:
+        app: healthcare
+    spec:
+      containers:
+      - name: healthcare-container
+        image: murali90102/healthcare
+        ports:
+        - containerPort: 8082
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: healthcare
+  labels:
+    app: healthcare
+spec:
+  selector:
+    app: healthcare
+
+  type: NodePort
+  ports:
+  - nodePort: 31018
+    port: 8082
+    targetPort: 8082
